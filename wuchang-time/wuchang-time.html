@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <title>明末：渊虚之羽 - 游戏启动倒计时</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* background: #0c0c14 url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1790&q=80') no-repeat center center; */
+            /* background: #0c0c14 url('./Wuchang-Fallen-Feathers.jpg') no-repeat center center; */
+            background-size: cover;
+            color: #e8e6e3;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(20, 15, 35, 0.85) 0%, rgba(50, 15, 35, 0.75) 100%);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .game-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(188, 0, 45, 0.7);
+            letter-spacing: 2px;
+            animation: titleGlow 3s infinite alternate;
+        }
+
+        .countdown-container {
+            /* background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px; */
+            padding: 40px 30px;
+            /* box-shadow: 0 0 30px rgba(188, 0, 45, 0.4);
+            border: 1px solid rgba(188, 0, 45, 0.3); */
+            margin: 30px auto;
+            max-width: 800px;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #d4af37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-box {
+            background: rgba(20, 15, 35, 0.8);
+            border-radius: 15px;
+            padding: 20px 15px;
+            min-width: 100px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(188, 0, 45, 0.3);
+        }
+
+        .countdown-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(188, 0, 45, 0.7);
+            line-height: 1;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .countdown-label {
+            font-size: 1.2rem;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .launch-message {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+            margin: 40px 0;
+            display: none;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .game-info {
+            margin-top: 40px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(15, 10, 25, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(188, 0, 45, 0.3);
+        }
+
+        .highlight {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 0 0 20px rgba(188, 0, 45, 0.7);
+            }
+
+            100% {
+                text-shadow: 0 0 30px rgba(188, 0, 45, 1), 0 0 60px rgba(188, 0, 45, 0.5);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+            }
+
+            100% {
+                transform: scale(1.05);
+                text-shadow: 0 0 30px rgba(212, 175, 55, 1), 0 0 60px rgba(212, 175, 55, 0.8);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .game-title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.4rem;
+            }
+
+            .countdown-box {
+                min-width: 80px;
+                padding: 15px 10px;
+            }
+
+            .countdown-value {
+                font-size: 2.5rem;
+                height: 50px;
+            }
+
+            .launch-message {
+                font-size: 3rem;
+            }
+
+            .game-info {
+                font-size: 0.95rem;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 2rem;
+            }
+
+            .countdown {
+                gap: 10px;
+            }
+
+            .countdown-box {
+                min-width: 70px;
+            }
+
+            .countdown-value {
+                font-size: 2rem;
+            }
+
+            .countdown-label {
+                font-size: 1rem;
+            }
+
+            .launch-message {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+
+    <style>
+        /* 基础样式：去除下划线、点击边框/遮罩层 */
+        a {
+            text-decoration: none;
+            /* 移除所有状态的下划线 [1,6](@ref) */
+            color: inherit;
+            /* 继承父级文本颜色，避免访问后变色 [2,7](@ref) */
+            -webkit-tap-highlight-color: transparent;
+            /* 清除移动端点击半透明遮罩 [9](@ref) */
+            outline: none;
+            /* 去除键盘聚焦时的虚线边框 [10](@ref) */
+        }
+
+        /* 覆盖所有交互状态 */
+        a:link,
+        a:visited,
+        a:hover,
+        a:active,
+        a:focus {
+            text-decoration: none;
+            /* 确保各状态均无下划线 [7](@ref) */
+            color: inherit;
+            /* 状态颜色统一 [2](@ref) */
+        }
+
+        /* 移动端兼容：彻底禁用点击高亮 */
+        @media (hover: none) {
+            a {
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+                /* 避免长按触发系统菜单 [9](@ref) */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 0;">
+        <video playsinline=""
+            autoplay=""
+            muted=""
+            loop=""
+            poster="./wuchang.jpg"
+            style="width: 100%;height: 100%;object-fit: cover;"
+            id="bgvid">
+            <source src="./wuchang.mp4"
+                type="video/mp4">
+        </video>
+    </div>
+    <div class="container">
+        <h1 class="game-title">明末：渊虚之羽</h1>
+
+        <div class="countdown-container">
+            <div class="subtitle">距离游戏启动还有</div>
+
+            <div class="countdown">
+                <div class="countdown-box">
+                    <div class="countdown-value"
+                        id="days">00</div>
+                    <div class="countdown-label">天</div>
+                </div>
+
+                <div class="countdown-box">
+                    <div class="countdown-value"
+                        id="hours">00</div>
+                    <div class="countdown-label">小时</div>
+                </div>
+
+                <div class="countdown-box">
+                    <div class="countdown-value"
+                        id="minutes">00</div>
+                    <div class="countdown-label">分</div>
+                </div>
+
+                <div class="countdown-box">
+                    <div class="countdown-value"
+                        id="seconds">00</div>
+                    <div class="countdown-label">秒</div>
+                </div>
+            </div>
+
+            <div class="launch-message"
+                id="launchMessage">渊神！
+                <a id="runGame" style="color: #f8696b;"
+                    href="steam://rungameid/2277560">启动！</a>
+            </div>
+        </div>
+
+        <!-- <div class="
+                    game-info">
+            <p>《明末：渊虚之羽》将背景设定在了风雨飘摇的明朝末年，故事发生地则是志怪传说数量众多还极其神异的巴蜀地区。</p>
+            <p>兵荒马乱的历史背景下，由一场诡异瘟疫催生出的诸多魔化生物在巴蜀地区肆虐。</p>
+            <p>玩家将扮演患有特殊的<span class="highlight">"羽化病"</span>，同时又失去了记忆的侠女无常，在对抗"羽化病"的同时追寻自己扑朔迷离的身世。</p>
+            <p>游戏将神秘的古蜀文明和克苏鲁风格进行了融合，打造出了独树一帜的游戏特色。</p>
+        </div> -->
+    </div>
+
+    <script>
+        // 设置目标时间：2025年7月24日 10:00:00
+        const targetDate = new Date('2025-07-24T10:00:00').getTime();
+
+        // 获取倒计时元素
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const launchMessage = document.getElementById('launchMessage');
+
+        let countdownInterval = null;
+
+        // 倒计时更新函数
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            // 如果倒计时结束
+            if (timeLeft <= 0) {
+                if (!!countdownInterval) {
+                    clearInterval(countdownInterval);
+                }
+
+                // 隐藏倒计时显示
+                document.querySelector('.countdown').style.display = 'none';
+                document.querySelector('.subtitle').style.display = 'none';
+
+                // 显示启动消息
+                launchMessage.style.display = 'block';
+
+                // 添加庆祝效果
+                document.querySelector('.countdown-container').style.animation = 'pulse 1.5s infinite alternate';
+                document.querySelector('#runGame').click();
+                return false;
+            }
+
+            // 计算天、小时、分钟和秒
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            // 更新显示
+            daysEl.textContent = days.toString().padStart(2, '0');
+            hoursEl.textContent = hours.toString().padStart(2, '0');
+            minutesEl.textContent = minutes.toString().padStart(2, '0');
+            secondsEl.textContent = seconds.toString().padStart(2, '0');
+
+            // 添加动画效果
+            if (secondsEl.textContent !== secondsEl.dataset.prev) {
+                secondsEl.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    secondsEl.style.transform = 'scale(1)';
+                }, 300);
+            }
+
+            // 保存当前值用于下次比较
+            secondsEl.dataset.prev = secondsEl.textContent;
+            return true;
+        }
+
+        // 初始更新
+        if (updateCountdown()) {
+            // 每秒更新一次
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+
+    </script>
+</body>
+
+</html>
